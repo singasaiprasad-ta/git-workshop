@@ -1,0 +1,24 @@
+{
+    
+        "python.defaultInterpreterPath": "/home/singasaiprasad/conda/envs/mle-dev/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.flake8Enabled": true,
+        "isort.check": true,
+         
+        "[python]": {
+            "editor.defaultFormatter": "ms-python.black-formatter",
+            "editor.tabSize": 4,
+            "files.trimTrailingWhitespace": true,
+            "editor.formatOnSave": true,
+            "editor.codeActionsOnSave": {
+                "source.organizeImports": "always"
+            }
+            
+        },
+        "black-formatter.args": [
+            "--line-length",
+            "79"
+        ],
+        
+    
+}

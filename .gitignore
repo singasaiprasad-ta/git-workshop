@@ -1,0 +1,5 @@
+# ignoring the python bytecode files
+*.pyc
+
+#Ignore CSV data files
+*.csv
