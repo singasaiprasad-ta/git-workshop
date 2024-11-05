@@ -13,7 +13,9 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Miniconda
@@ -25,6 +27,7 @@ jobs:
         pyhton-version: '3.12'
     - name: Install dependencies
       run: |
+        conda init
         conda env update --file env.yml
         conda activate mle-dev
     - name: Run flake8
