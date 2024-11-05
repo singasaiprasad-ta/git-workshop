@@ -8,6 +8,7 @@ Parameters:
 Returns:
     int or float: The result of doubling the input number.
 """
+    print(f'value after double_number(): {a+a}')
     return a+a
 
 
@@ -19,4 +20,5 @@ Parameters:
 Returns:
     int or float: The result of squaring the input number.
 """
+    print(f'value after square_number(): {a*a}')
     return a*a
