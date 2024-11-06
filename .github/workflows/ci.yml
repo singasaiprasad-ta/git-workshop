@@ -27,7 +27,7 @@ jobs:
            environment-file: env.yml
            auto-update-conda : true
            python-version: '3.13.0'
-         run: |
+        - run: |
           conda info
           conda list
           conda config --show-sources
@@ -67,7 +67,7 @@ jobs:
          environment-file: env.yml
          auto-update-conda : true
          python-version: '3.13.0'
-       run: |
+      - run: |
          conda info
          conda list
          conda config --show-sources
