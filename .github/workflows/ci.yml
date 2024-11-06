@@ -23,9 +23,15 @@ jobs:
          uses: conda-incubator/setup-miniconda@v2
          with: 
            installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+           conda-activation: mle-dev
            environment-file: env.yml
            auto-update-conda : true
-           #python-version: '3.12'
+           python-version: '3.13.0'
+         run: |
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show  
        - name: Install tree
          run: |
            sudo-apt get install tree
@@ -57,9 +63,15 @@ jobs:
        uses: conda-incubator/setup-miniconda@v2
        with: 
          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+         conda-activation: mle-dev
          environment-file: env.yml
          auto-update-conda : true
-         #python-version: '3.12' 
+         python-version: '3.13.0'
+       run: |
+         conda info
+         conda list
+         conda config --show-sources
+         conda config --show  
      - name: Download build artifacts
        uses: actions/download-artifact@v4
        with:
