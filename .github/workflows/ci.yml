@@ -34,7 +34,7 @@ jobs:
           conda config --show  
        - name: Install tree
          run: |
-           sudo-apt get install tree
+            apt install tree
        - name: Display directory tree(before build)
          run: |   
            tree    
@@ -53,6 +53,7 @@ jobs:
 
    Install_deploy:
      name: Install_deploy
+     needs: build_the_package
      runs-on: "ubuntu-latest"
      defaults:
        run:
