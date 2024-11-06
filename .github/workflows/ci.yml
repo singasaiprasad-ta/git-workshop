@@ -34,7 +34,7 @@ jobs:
           conda config --show  
        - name: Install tree
          run: |
-            apt install tree
+            sudo apt install tree
        - name: Display directory tree(before build)
          run: |   
            tree    
