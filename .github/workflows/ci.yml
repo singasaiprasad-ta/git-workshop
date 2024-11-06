@@ -1,8 +1,8 @@
-name: CI- Continuous Integration
+name: Python Packaging
 on:
     # Triggers the workflow on push or pull request events but only for the $default-branch 
   push:
-    branches: ci/7/setup
+    branches: assi2
 
   pull_request:
     branches: main
@@ -11,53 +11,68 @@ on:
   workflow_dispatch:  
 
 jobs:
-<<<<<<< Updated upstream
-      runs-on: ubuntu-latest
-      steps:
-         - uses:actions/checkout@v4
-         - name: Set up Miniconda
-         - uses: conda-incubator/setup-miniconda@v2
-           with: 
-               installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
-               environment-file: env.yml
-               auto-update-conda : true
-               pyhton-version: '3.12'
-        - name: Install dependencies
-          run: |
-               conda env update --file env.yml
-        - name: Run flake8
-          run: |
-               conda run -n mle-dev flake8
-        - name: Run nonstandardcode.py
-          run: |
-               conda run -n mle-dev python nonstandardcode.py
-=======
-  build-linux:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -el {0}
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Miniconda
-      uses: conda-incubator/setup-miniconda@v2
-      with: 
-        installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
-        environment-file: env.yml
-        auto-update-conda : true
-        #python-version: '3.12'
-    - name: Install dependencies
-      run: |
-        conda init
-        conda env update --file env.yml
-        conda activate mle-dev
-    - name: Run flake8
-      run: |
-        flake8 nonstandardcode.py
-    - name: Run nonstandardcode.py
-      run: |
-        python nonstandardcode.py
->>>>>>> Stashed changes
+   build_the_package:
+     name: build_the_package
+     runs-on: "ubuntu-latest"
+     defaults:
+       run:
+         shell: bash -el {0}
+     steps:
+       - uses: actions/checkout@v4
+       - name: Set up Miniconda
+         uses: conda-incubator/setup-miniconda@v2
+         with: 
+           installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+           environment-file: env.yml
+           auto-update-conda : true
+           #python-version: '3.12'
+       - name: Install tree
+         run: |
+           sudo-apt get install tree
+       - name: Display directory tree(before build)
+         run: |   
+           tree    
+       - name: Build the package
+         run: |
+           pip install wheel
+           python setup.py sdist bdist_wheel  
+       - name: Display directory tree(after build)    
+         run: |
+           tree
+       - name: Upload the build artifacts
+         uses: actions/upload-artifact@v4
+         with:
+           name: dist
+           path: dist/     
+
+   Install_deploy:
+     name: Install_deploy
+     runs-on: "ubuntu-latest"
+     defaults:
+       run:
+         shell: bash -el {0}
+     steps:
+     - uses: actions/checkout@v4
+     - name: Set up Miniconda
+       uses: conda-incubator/setup-miniconda@v2
+       with: 
+         installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+         environment-file: env.yml
+         auto-update-conda : true
+         #python-version: '3.12' 
+     - name: Download build artifacts
+       uses: actions/download-artifact@v4
+       with:
+         name: dist
+     - name: Install the package
+       run: |
+         pip install dist/mypackage.whl
+     - name: Run nonstandardcode.py
+       run: |
+         python nonstandardcode.py          
+      
+
+
 
 
 
