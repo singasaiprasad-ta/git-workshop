@@ -8,8 +8,8 @@ setup(
     install_requires=[
         "requests",
         'importlib-metadata; python_version>="3.10"',
-        "os",
-        "tarfile" "numpy",
+        "tarfile",
+        "numpy",
         "pandas",
         "scipy",
         "scikit-learn",
