@@ -8,7 +8,6 @@ setup(
     install_requires=[
         "requests",
         'importlib-metadata; python_version>="3.10"',
-        "tarfile",
         "numpy",
         "pandas",
         "scipy",
