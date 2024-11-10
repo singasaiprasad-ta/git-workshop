@@ -50,7 +50,7 @@ jobs:
            pip install dist/*.whl
        - name: Run tests
          run: |
-           python tests/        
+           pytest tests/        
       
 
 
