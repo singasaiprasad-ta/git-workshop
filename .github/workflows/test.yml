@@ -55,6 +55,7 @@ jobs:
            python --version
            python -m pip show mypackage
            pip list
+           python -c "import sys; print(sys.path)"
            python -c "import mypackage; print(mypackage.__version__)"
        - name: Run tests
          run: |
