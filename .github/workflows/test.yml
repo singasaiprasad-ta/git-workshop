@@ -1,0 +1,59 @@
+name: Python Packaging
+on:
+    # Triggers the workflow on push or pull request events but only for the $default-branch 
+  push:
+    branches: test/11/pytest
+
+  pull_request:
+    branches: main
+
+    # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:  
+
+jobs:
+   build_test_package:
+     name: build_test_package
+     runs-on: "ubuntu-latest"
+     defaults:
+       run:
+         shell: bash -el {0}
+     steps:     
+       - uses: actions/checkout@v4
+       - name: Set up Miniconda
+         uses: conda-incubator/setup-miniconda@v2
+         with: 
+           installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+           conda-activation: mle-dev
+           environment-file: env.yml
+           auto-update-conda : true
+           python-version: '3.13.0'
+       - run: |
+           conda info
+           conda list
+           conda config --show-sources
+           conda config --show  
+       - name: Install tree
+         run: |
+              sudo apt install tree
+       - name: Display directory tree(before build)
+         run: |   
+             tree    
+       - name: Build the package
+         run: |
+             pip install wheel
+             python setup.py sdist bdist_wheel  
+       - name: Display directory tree(after build)    
+         run: |
+             tree        
+       - name: Install the package
+         run: |
+           pip install dist/*.whl
+       - name: Run tests
+         run: |
+           python tests/        
+      
+
+
+
+
+
