@@ -33,6 +33,7 @@ jobs:
            conda config --show  
        - name: Activate conda environment
          run: |
+             conda init
              conda info --envs
              conda activate mle-dev
        - name: Install tree
