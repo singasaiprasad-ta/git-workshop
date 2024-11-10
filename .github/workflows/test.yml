@@ -26,12 +26,15 @@ jobs:
            conda-activation: mle-dev
            environment-file: env.yml
            auto-update-conda : true
-           python-version: '3.13.0'
+           python-version: '3.11.0'
        - run: |
            conda info
            conda list
            conda config --show-sources
            conda config --show  
+       - name: Activate conda environment
+         run: |
+             conda activate mle-dev
        - name: Install tree
          run: |
               sudo apt install tree
@@ -48,6 +51,8 @@ jobs:
        - name: Install the package
          run: |
            pip install dist/*.whl
+           pip list
+           pip show mypackage
        - name: Run tests
          run: |
            pip install pytest
