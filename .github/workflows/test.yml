@@ -40,8 +40,8 @@ jobs:
              tree    
        - name: Build the package
          run: |
-             pip install wheel
-             python setup.py sdist bdist_wheel  
+             rm -rf build/ dist/ mypackage.egg-info
+             python setup.py sdist 
        - name: Display directory tree(after build)    
          run: |
              tree        
