@@ -47,7 +47,9 @@ jobs:
              tree        
        - name: Install the package
          run: |
+           conda activate test
            pip install dist/*.whl
+           pip list
            python -c "import mypackage; print(mypackage.__version__)"
        - name: Run tests
          run: |
