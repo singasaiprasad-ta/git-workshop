@@ -48,6 +48,8 @@ jobs:
        - name: Install the package
          run: |
            conda activate test
+           which python
+           which pip
            pip install dist/*.whl
            pip list
            python -c "import mypackage; print(mypackage.__version__)"
