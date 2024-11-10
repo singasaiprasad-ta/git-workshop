@@ -51,6 +51,7 @@ jobs:
        - name: Run tests
          run: |
            pip install pytest
+           pip show mypackage
            pytest tests/        
       
 
