@@ -26,7 +26,7 @@ jobs:
            conda-activation: mle-dev
            environment-file: env.yml
            auto-update-conda : true
-           python-version: '3.13.0'
+           python-version: '3.13'
        - run: |
            conda info
            conda list
@@ -55,6 +55,8 @@ jobs:
            python --version
            python -m pip show mypackage
            pip list
+           cd /usr/share/miniconda3/envs/test/lib/python3.13/site-packages
+           ls -l | grep mypackage
            python -c "import sys; print(sys.path)"
            python -c "import mypackage; print(mypackage.__version__)"
        - name: Run tests
