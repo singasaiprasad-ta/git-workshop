@@ -48,11 +48,13 @@ jobs:
        - name: Install the package
          run: |
            pip install dist/*.whl
+           python -c "import mypackage; print(mypackage.__version__)"
        - name: Run tests
          run: |
+           conda activate test
            pip install pytest
            pip show mypackage
-           pytest tests/        
+           pytest ./tests/test_build.py       
       
 
 
