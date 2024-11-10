@@ -50,7 +50,10 @@ jobs:
            conda activate test
            which python
            which pip
+           pip uninstall mypackage
            pip install dist/*.whl
+           pyhton --version
+           python -m pip show mypackage
            pip list
            python -c "import mypackage; print(mypackage.__version__)"
        - name: Run tests
