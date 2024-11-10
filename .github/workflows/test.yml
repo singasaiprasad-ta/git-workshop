@@ -51,7 +51,7 @@ jobs:
            which python
            which pip
            pip uninstall mypackage
-           pip install dist/*.whl
+           pip install dist/mypackage-0.0.1.tar.gz
            python --version
            python -m pip show mypackage
            pip list
