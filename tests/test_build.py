@@ -8,13 +8,13 @@ print(sys.path)
 
 def test_import_package():
     try:
-        import my_package
+        import mypackage
     except ImportError:
         pytest.fail("package could not be imported")
 
 
 def test_fetch_housing_data():
-    from my_package import fetch_housing_data
+    from mypackage import fetch_housing_data
 
     fetch_housing_data()
     assert os.path.exists("datasets/housing"), "The Folder not found."
@@ -24,7 +24,7 @@ def test_fetch_housing_data():
 
 
 def test_load_housing_data():
-    from my_package import load_housing_data
+    from mypackage import load_housing_data
 
     housing = load_housing_data()
     expected_result = [
