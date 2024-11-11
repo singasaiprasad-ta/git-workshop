@@ -47,6 +47,7 @@ jobs:
        - name: Install the package
          run: |
            pip install dist/*.whl
+           pip list
        - name: Run tests
          run: |
            pytest ./tests/test_build.py    
