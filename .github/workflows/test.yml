@@ -19,19 +19,6 @@ jobs:
          shell: bash -el {0}
      steps:     
        - uses: actions/checkout@v4
-       - name: Set up Miniconda
-         uses: conda-incubator/setup-miniconda@v2
-         with: 
-           installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
-           conda-activation: mle-dev
-           environment-file: env.yml
-           auto-update-conda : true
-           python-version: '3.13'
-       - run: |
-           conda info
-           conda list
-           conda config --show-sources
-           conda config --show  
        - name: Install tree
          run: |
               sudo apt install tree
@@ -41,27 +28,27 @@ jobs:
        - name: Build the package
          run: |
              rm -rf build/ dist/ mypackage.egg-info
-             python setup.py sdist 
+             pip install wheel
+             python setup.py sdist bdist_wheel
        - name: Display directory tree(after build)    
          run: |
              tree        
        - name: Install the package
          run: |
-           conda activate test
            which python
            which pip
            pip uninstall mypackage
-           pip install dist/mypackage-0.0.1.tar.gz
+           pip install dist/*.whl
            python --version
            python -m pip show mypackage
            pip list
           #  ls /usr/share/miniconda3/envs/test/lib/python3.13/site-packages/mypackage
        - name: Run tests
          run: |
-           conda activate test
            pip install pytest
            pip show mypackage
-           pytest ./tests/test_build.py       
+           pytest ./tests/test_build.py    
+           tree   
       
 
 
