@@ -1,9 +1,6 @@
 import os
-import sys
 
 import pytest
-
-print(sys.path)
 
 
 def test_import_package():
@@ -19,7 +16,7 @@ def test_fetch_housing_data():
     fetch_housing_data()
     assert os.path.exists("datasets/housing"), "The Folder not found."
     assert os.path.exists(
-        "datasets/housing/houising.csv"
+        "datasets/housing/housing.csv"
     ), "the housing.csv file not found."
 
 
@@ -39,4 +36,4 @@ def test_load_housing_data():
         "median_house_value",
         "ocean_proximity",
     ]
-    assert expected_result == list(housing.cloumns)
+    assert expected_result == list(housing.columns)
