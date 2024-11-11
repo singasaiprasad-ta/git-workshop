@@ -41,18 +41,42 @@ jobs:
        - name: Build the package
          run: |
              python -m build
+             mv ./tests ./dist
        - name: Display directory tree(after build)    
          run: |
-             tree        
+             tree   
+       - name: upload into artifacts
+         uses: actions/upload-artifact@v4
+         with:
+           name: dist
+           path: dist/*    
+
+   test_package:
+      name: test_package
+      needs: build_test_package
+      runs-on: "ubuntu-latest"
+      defaults:
+        run:
+         shell: bash -el {0}
+      steps:   
+       - name: Download build artifacts
+         uses: actions/download-artifact@v4
+         with:
+           name: dist
+           path: ./dist   
+       - name: Install tree
+         run:  |
+           sudo apt install -y tree
+           tree    
        - name: Install the package
          run: |
            pip install dist/*.whl
-           pip list
-       - name: Run tests
+       - name: run test files
          run: |
-           pytest ./tests/test_build.py    
-           tree   
-      
+           pip install pytest
+           cd dist/
+           pytest    
+
 
 
 
