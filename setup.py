@@ -12,5 +12,6 @@ setup(
         "pandas",
         "scipy",
         "scikit-learn",
+        "matplotlib",
     ],
 )
