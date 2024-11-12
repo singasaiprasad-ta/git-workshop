@@ -24,10 +24,10 @@ def prepare_data(housing):
         housing["population"] / housing["households"]
     )
 
+    housing_labels = housing["median_house_value"].copy()
     housing = housing.drop(
         "median_house_value", axis=1
     )  # Drop the target for training
-    housing_labels = housing["median_house_value"].copy()
 
     # Handling missing values
     imputer = SimpleImputer(strategy="median")

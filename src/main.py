@@ -9,6 +9,7 @@ def main():
     print("Fetching the housiong data")
     fetch_housing_data()
     housing = load_housing_data()
+    housing.head()
 
     # Step 2: Prepare Data for Training
     print("Preparing data for training...")
