@@ -17,20 +17,7 @@ def evaluate_model(X_test, y_test, model):
     return final_rmse
 
 
-if __name__ == "__main__":
-    # Load the best trained model
-    model = joblib.load("best_model.pkl")
-
-    # Assuming we already have X_test and y_test from the training.py
-    # Here you could load the dataset again (e.g., from CSV or any other source)
-    # But since you want to directly use the split test set from training.py,
-    # We will directly call evaluate_model after loading the model.
-
-    # Use X_test and y_test from training.py
-    # Assuming you've passed them correctly from `train_models` function
-    # Example:
-    # X_test, y_test = ... (passed from train.py)
-
-    # Directly use evaluate_model by passing X_test, y_test from train.py
-    # For now, this is just for structure purpose, you will call this with actual values
-    evaluate_model(X_test, y_test, model)
+# if __name__ == "__main__":
+#     # Load the best trained model
+#     model = joblib.load("best_model.pkl")
+#     evaluate_model(X_test, y_test, model)
