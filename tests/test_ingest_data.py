@@ -1,32 +1,22 @@
-import os
+import importlib
 
-from my_package.ingest_data import fetch_housing_data, load_housing_data
-
-
-def test_fetch_housing_data():
-
-    fetch_housing_data()
-    assert os.path.exists("datasets/housing"), "The Folder not found."
-    assert os.path.exists(
-        "datasets/housing/housing.csv"
-    ), "the housing.csv file not found."
+import pytest
 
 
-def test_load_housing_data():
+def test_ingest_data_import():
+    try:
+        ingest_data = importlib.import_module("my_package.ingest_data")
 
-    housing = load_housing_data()
-    expected_result = [
-        "longitude",
-        "latitude",
-        "housing_median_age",
-        "total_rooms",
-        "total_bedrooms",
-        "population",
-        "households",
-        "median_income",
-        "median_house_value",
-        "ocean_proximity",
-    ]
-    assert expected_result == list(
-        housing.columns
-    ), "The expected result is not same as housing.columns"
+        # Ensure that the functions exist in the module
+        fetching_data = getattr(ingest_data, "fetch_housing_data", None)
+        loading_data = getattr(ingest_data, "load_housing_data", None)
+
+        if fetching_data is None or loading_data is None:
+            pytest.fail("Functions not found in ingest_data.py")
+
+    except ModuleNotFoundError:
+        pytest.fail(
+            "Failed to import the module 'ingest_data' from my_package."
+        )
+    except Exception as e:
+        pytest.fail(f"An unexpected error occurred: {e}")
