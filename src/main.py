@@ -9,7 +9,7 @@ def main():
     print("Fetching the housiong data")
     fetch_housing_data()
     housing = load_housing_data()
-    housing.head()
+    print(housing.head())
 
     # Step 2: Prepare Data for Training
     print("Preparing data for training...")
@@ -21,7 +21,10 @@ def main():
 
     # Step 4: Evaluate the model
     print("Evaluating the model...")
-    evaluate_model(X_test, y_test, best_model)
+    final_rmse = evaluate_model(
+        X_test, y_test, best_model, housing_prepared, housing_labels
+    )
+    print(final_rmse)
 
 
 if __name__ == "__main__":
