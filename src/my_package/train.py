@@ -108,11 +108,3 @@ def train_models(housing_prepared, housing_labels):
     joblib.dump(best_model, "best_model.pkl")
 
     return best_model, X_test, y_test
-
-
-# if __name__ == "__main__":
-#     housing = pd.read_csv(
-#         "datasets/housing/housing.csv"
-#     )  # Load dataset from the path
-#     housing_prepared, housing_labels, imputer = prepare_data(housing)
-#     best_model, X_test, y_test = train_models(housing_prepared, housing_labels)

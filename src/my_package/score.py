@@ -20,6 +20,7 @@ def evaluate_model(X_test, y_test, model, housing_prepared, housing_labels):
         },
     ]
 
+    # Setup the RandomForestRegressor with a fixed random state for reproducibility
     forest_reg = RandomForestRegressor(random_state=42)
 
     # Perform GridSearchCV
@@ -46,8 +47,17 @@ def evaluate_model(X_test, y_test, model, housing_prepared, housing_labels):
     ):
         print(np.sqrt(-mean_score), params)
 
+    # Feature importances for the best model
+    # feature_importances = grid_search.best_estimator_.feature_importances_
+    # print("\nFeature Importances:")
+    # print(
+    #     sorted(
+    #         zip(feature_importances, housing_prepared.columns), reverse=True
+    #     )
+    # )
+    final_predictions = model.predict(X_test)
 
-# if __name__ == "__main__":
-#     # Load the best trained model
-#     model = joblib.load("best_model.pkl")
-#     evaluate_model(X_test, y_test, model)
+    # Calculate RMSE
+    final_mse = mean_squared_error(y_test, final_predictions)
+    final_rmse = np.sqrt(final_mse)
+    print(f"Final RMSE: {final_rmse}")
