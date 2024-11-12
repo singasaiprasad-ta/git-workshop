@@ -97,6 +97,10 @@ def train_models(housing_prepared, housing_labels):
     )
     rnd_search.fit(X_train, y_train)
     best_model = rnd_search.best_estimator_
+    rnd_search.fit(housing_prepared, housing_labels)
+    cvres = rnd_search.cv_results_
+    for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
+        print(np.sqrt(-mean_score), params)
 
     print(f"Best Random Forest Model: {best_model}")
 
