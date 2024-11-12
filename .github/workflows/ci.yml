@@ -90,7 +90,7 @@ jobs:
            name: dist
            path: dist/*            
 
-   deploy_package:
+    deploy_package:
       name: deploy_package
       needs: build_package
       runs-on: "ubuntu-latest"
