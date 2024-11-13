@@ -107,6 +107,10 @@ jobs:
          with:
            name: dist
            path: ./dist   
+       - name: Disable SSL Verification (if required)
+         run: |
+             conda config --set ssl_verify no
+             
        - name: Set up Miniconda
          uses: conda-incubator/setup-miniconda@v2
          with: 
