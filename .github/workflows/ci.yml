@@ -134,25 +134,25 @@ jobs:
 
        - name: Run data ingestion script with -h
          run: |
-             python dist/scripts/ingest_data.py -h
+             python dist/scripts/ingest_data_script.py -h
        - name: Run training script with -h
          run: |
-             python dist/scripts/train.py -h
+             python dist/scripts/train_script.py -h
    
        - name: Run scoring script with -h
          run: |
-             python dist/scripts/score.py -h    
+             python dist/scripts/score_script.py -h    
        - name: Run data ingestion script
          run: |
-             python dist/scripts/ingest_data.py --output-path ./datasets/housing             
+             python dist/scripts/ingest_data_script.py --output-path ./datasets/housing             
    
        - name: Train the model
          run: |
-             python dist/scripts/train.py --input-path ./datasets/housing/housing.csv --output-path ./models/
+             python dist/scripts/train_script.py --input-path ./datasets/housing/housing.csv --output-path ./models/
    
        - name: Score the model
          run: |
-             python dist/scripts/score.py --model-path ./models/best_model.pkl --data-path ./datasets/housing/housing.csv
+             python dist/scripts/score_script.py --model-path ./models/best_model.pkl --data-path ./datasets/housing/housing.csv
 
 
 
