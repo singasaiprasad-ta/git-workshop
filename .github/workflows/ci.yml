@@ -35,15 +35,15 @@ jobs:
        - name: Install tree
          run: |
               sudo apt install tree
-       - name: Display directory tree(before build)
+       - name: Display directory tree(before development mode)
          run: |   
             tree    
-       - name: test the files before build
+       - name: test the files under development mode
          run: |
             pip install -e .
             pip install pytest     
             pytest   
-       - name: Display directory tree(after build)    
+       - name: Display directory tree(after development mode)    
          run: |
              tree      
     build_package:
