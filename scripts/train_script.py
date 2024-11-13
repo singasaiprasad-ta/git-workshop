@@ -41,7 +41,12 @@ def main():
     model_save_path = os.path.join(args.output_path, "best_model.pkl")
     joblib.dump(best_model, model_save_path)
 
+    joblib.dump(X_test, os.path.join(args.output_path, "X_test.csv"))
+    joblib.dump(y_test, os.path.join(args.output_path, "y_test.csv"))
     print(f"Best model saved to: {model_save_path}")
+    print(
+        f"Test data saved to: {os.path.join(args.output_path, 'X_test.csv')} and {os.path.join(args.output_path, 'y_test.csv')}"
+    )
 
 
 if __name__ == "__main__":

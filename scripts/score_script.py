@@ -1,4 +1,5 @@
 import argparse
+import os
 
 import joblib
 import pandas as pd
@@ -22,6 +23,10 @@ def main():
     # Load model
     model = joblib.load(args.model_path)
 
+    # Load the saved test data
+    X_test = joblib.load(os.path.join(args.output_path, "X_test.csv"))
+    y_test = joblib.load(os.path.join(args.output_path, "y_test.csv"))
+
     # Load the dataset (assuming it's already prepared)
     housing = pd.read_csv(args.data_path)
 
@@ -34,7 +39,9 @@ def main():
     ]  # Example of using the target column for labels
 
     # Evaluate the model
-    final_rmse = score.evaluate_model(housing_prepared, housing_labels, model)
+    final_rmse = score.evaluate_model(
+        X_test, y_test, model, housing_prepared, housing_labels
+    )
     print(f"Final RMSE of the model: {final_rmse}")
 
 

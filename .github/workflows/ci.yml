@@ -149,10 +149,11 @@ jobs:
        - name: Train the model
          run: |
              python dist/scripts/train_script.py --input-path ./datasets/housing/housing.csv --output-path ./models/
-   
+             
        - name: Score the model
          run: |
-             python dist/scripts/score_script.py --model-path ./models/best_model.pkl --data-path ./datasets/housing/housing.csv
+             python dist/scripts/score_script.py --model-path ./models/best_model.pkl --data-path ./datasets/housing/housing.csv --output-path ./models/
+    
        - name: print the directory
          run: |
            tree .
