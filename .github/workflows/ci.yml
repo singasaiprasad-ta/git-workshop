@@ -1,8 +1,8 @@
-name: Python Packaging
+name: Test_using_Pytest
 on:
     # Triggers the workflow on push or pull request events but only for the $default-branch 
   push:
-    branches: assi2
+    branches: unittest/15
 
   pull_request:
     branches: main
@@ -11,41 +11,13 @@ on:
   workflow_dispatch:  
 
 jobs:
-   build_the_package:
-     name: build_the_package
+    test_package:
+     name: test_package
      runs-on: "ubuntu-latest"
      defaults:
        run:
          shell: bash -el {0}
-     steps:
-       - uses: actions/checkout@v4
-       - name: Install tree
-         run: |
-            sudo apt install tree
-       - name: Display directory tree(before build)
-         run: |   
-           tree    
-       - name: Build the package
-         run: |
-           pip install wheel
-           python setup.py sdist bdist_wheel  
-       - name: Display directory tree(after build)    
-         run: |
-           tree
-       - name: Upload the build artifacts
-         uses: actions/upload-artifact@v4
-         with:
-           name: dist
-           path: dist/*     
-
-   Install_deploy:
-     name: Install_deploy
-     needs: build_the_package
-     runs-on: "ubuntu-latest"
-     defaults:
-       run:
-         shell: bash -el {0}
-     steps:
+     steps:     
        - uses: actions/checkout@v4
        - name: Set up Miniconda
          uses: conda-incubator/setup-miniconda@v2
@@ -59,19 +31,90 @@ jobs:
            conda info
            conda list
            conda config --show-sources
-           conda config --show  
+           conda config --show
+       - name: Install tree
+         run: |
+              sudo apt install tree
+       - name: Display directory tree(before build)
+         run: |   
+            tree    
+       - name: test the files before build
+         run: |
+            pip install -e .
+            pip install pytest     
+            pytest       
+       - name: Display directory tree(after build)    
+         run: |
+             tree      
+    build_package:
+     name: build_package
+     needs: test_package
+     runs-on: "ubuntu-latest"
+     defaults:
+       run:
+         shell: bash -el {0}
+     steps:     
+       - uses: actions/checkout@v4
+       - name: Set up Miniconda
+         uses: conda-incubator/setup-miniconda@v2
+         with: 
+           installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+           conda-activation: mle-dev
+           environment-file: env.yml
+           auto-update-conda : true
+           python-version: '3.13.0'
+       - run: |
+           conda info
+           conda list
+           conda config --show-sources
+           conda config --show
+       - name: Install tree
+         run: |
+              sudo apt install tree
+       - name: Display directory tree(before build)
+         run: |   
+            tree         
+       - name: Build the package
+         run: |
+             pip install build
+             python -m build
+       - name: Display directory tree(after build)    
+         run: |
+             tree   
+       - name: move the main.py to dist folder
+         run: |
+           mv ./src/main.py ./dist      
+       - name: upload into artifacts
+         uses: actions/upload-artifact@v4
+         with:
+           name: dist
+           path: dist/*            
+
+    deploy_package:
+      name: deploy_package
+      needs: build_package
+      runs-on: "ubuntu-latest"
+      defaults:
+        run:
+         shell: bash -el {0}
+      steps:   
        - name: Download build artifacts
          uses: actions/download-artifact@v4
          with:
            name: dist
-           path: ./dist
+           path: ./dist   
+       - name: Install tree
+         run:  |
+           sudo apt install -y tree
+           tree    
        - name: Install the package
          run: |
            pip install dist/*.whl
-       - name: Run nonstandardcode.py
+       - name: run main.py file
          run: |
-           python ./src/my_package/nonstandardcode.py          
-      
+           cd dist
+           python main.py
+
 
 
 
