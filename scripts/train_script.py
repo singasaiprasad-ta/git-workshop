@@ -20,6 +20,12 @@ def main():
     )
     args = parser.parse_args()
 
+    # Ensure the output directory exists
+    if not os.path.exists(args.output_path):
+        os.makedirs(
+            args.output_path
+        )  # Creates the directory if it doesn't exist
+
     # Load housing data
     housing = pd.read_csv(
         args.input_path
@@ -30,12 +36,12 @@ def main():
     best_model, X_test, y_test = train.train_models(
         housing_prepared, housing_labels
     )
-    # Save the trained model
-    joblib.dump(best_model, os.path.join(args.output_path, "best_model.pkl"))
 
-    print(
-        f"Best model saved to: {os.path.join(args.output_path, 'best_model.pkl')}"
-    )
+    # Save the trained model
+    model_save_path = os.path.join(args.output_path, "best_model.pkl")
+    joblib.dump(best_model, model_save_path)
+
+    print(f"Best model saved to: {model_save_path}")
 
 
 if __name__ == "__main__":

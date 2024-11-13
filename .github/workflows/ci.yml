@@ -153,7 +153,9 @@ jobs:
        - name: Score the model
          run: |
              python dist/scripts/score_script.py --model-path ./models/best_model.pkl --data-path ./datasets/housing/housing.csv
-
+       - name: print the directory
+         run: |
+           tree .
 
 
 
