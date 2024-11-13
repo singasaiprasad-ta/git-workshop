@@ -1,8 +1,54 @@
 # score.py
+import joblib
 import numpy as np
-from sklearn.ensemble import RandomForestRegressor
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressord
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import GridSearchCV
+
+
+def prepare_data_for_scoring(housing):
+    """Prepares the test data using the same transformations as the training data."""
+
+    # Load the saved imputer from the training phase
+    imputer = joblib.load(
+        "imputer.pkl"
+    )  # Load the imputer saved during training
+
+    # Prepare numeric features as during training
+    housing["rooms_per_household"] = (
+        housing["total_rooms"] / housing["households"]
+    )
+    housing["bedrooms_per_room"] = (
+        housing["total_bedrooms"] / housing["total_rooms"]
+    )
+    housing["population_per_household"] = (
+        housing["population"] / housing["households"]
+    )
+
+    # Drop the target column to avoid including it in the features
+    housing_labels = housing["median_house_value"].copy()
+    housing = housing.drop("median_house_value", axis=1)
+
+    # Handle missing values in the same way as during training using the loaded imputer
+    housing_num = housing.drop(
+        "ocean_proximity", axis=1
+    )  # Drop categorical column
+    X = imputer.transform(
+        housing_num
+    )  # Transform the test data using the imputer
+
+    housing_tr = pd.DataFrame(
+        X, columns=housing_num.columns, index=housing.index
+    )
+
+    # Apply one-hot encoding as done in training
+    housing_cat = housing[["ocean_proximity"]]
+    housing_prepared = housing_tr.join(
+        pd.get_dummies(housing_cat, drop_first=True)
+    )
+
+    return housing_prepared, housing_labels
 
 
 def evaluate_model(X_test, y_test, model, housing_prepared, housing_labels):

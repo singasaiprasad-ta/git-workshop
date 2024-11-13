@@ -53,6 +53,7 @@ def prepare_data(housing):
     housing_prepared = housing_tr.join(
         pd.get_dummies(housing_cat, drop_first=True)
     )
+    joblib.dump(imputer, "imputer.pkl")
 
     return housing_prepared, housing_labels, imputer
 
