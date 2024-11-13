@@ -42,8 +42,7 @@ jobs:
          run: |
             pip install -e .
             pip install pytest     
-            pytest 
-            python -m unittest discover   
+            pytest   
        - name: Display directory tree(after build)    
          run: |
              tree      
