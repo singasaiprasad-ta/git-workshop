@@ -18,6 +18,12 @@ def main():
         required=True,
         help="Path to the dataset for evaluation",
     )
+    parser.add_argument(
+        "--output-path",
+        type=str,
+        required=True,
+        help="Path to the directory where the test data is saved",
+    )
     args = parser.parse_args()
 
     # Load model
