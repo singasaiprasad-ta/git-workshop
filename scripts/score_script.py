@@ -43,6 +43,7 @@ def main():
     housing_labels = housing[
         "median_house_value"
     ]  # Example of using the target column for labels
+    housing_prepared, housing_labels = score.prepare_data_for_scoring(housing)
 
     # Evaluate the model
     final_rmse = score.evaluate_model(
