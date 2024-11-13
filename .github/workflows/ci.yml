@@ -1,8 +1,8 @@
-name: Test_using_Pytest
+name: Machine_Learning_Workflow
 on:
     # Triggers the workflow on push or pull request events but only for the $default-branch 
   push:
-    branches: unittest/15
+    branches: argparser/17
 
   pull_request:
     branches: main
@@ -81,9 +81,13 @@ jobs:
        - name: Display directory tree(after build)    
          run: |
              tree   
-       - name: move the main.py to dist folder
+       - name: move the env.yml file  to dist folder
          run: |
-           mv ./src/main.py ./dist      
+           mv ./env.yml ./dist    
+       - name: move the scripts folder to dist folder
+         run: |
+             mkdir ./dist/scripts
+             mv ./scripts/* ./dist/scripts   
        - name: upload into artifacts
          uses: actions/upload-artifact@v4
          with:
@@ -103,6 +107,19 @@ jobs:
          with:
            name: dist
            path: ./dist   
+       - name: Set up Miniconda
+         uses: conda-incubator/setup-miniconda@v2
+         with: 
+             installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+             conda-activation: mle-dev
+             environment-file: ./dist/env.yml
+             auto-update-conda : true
+             python-version: '3.13.0'
+       - run: |
+             conda info
+             conda list
+             conda config --show-sources
+             conda config --show   
        - name: Install tree
          run:  |
            sudo apt install -y tree
@@ -110,11 +127,28 @@ jobs:
        - name: Install the package
          run: |
            pip install dist/*.whl
-       - name: run main.py file
-         run: |
-           cd dist
-           python main.py
 
+       - name: Run data ingestion script with -h
+         run: |
+             python dist/scripts/ingest_data.py -h
+       - name: Run training script with -h
+         run: |
+             python dist/scripts/train.py -h
+   
+       - name: Run scoring script with -h
+         run: |
+             python dist/scripts/score.py -h    
+       - name: Run data ingestion script
+         run: |
+             python dist/scripts/ingest_data.py --output-path ./datasets/housing             
+   
+       - name: Train the model
+         run: |
+             python dist/scripts/train.py --input-path ./datasets/housing/housing.csv --output-path ./models/
+   
+       - name: Score the model
+         run: |
+             python dist/scripts/score.py --model-path ./models/best_model.pkl --data-path ./datasets/housing/housing.csv
 
 
 
